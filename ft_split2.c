@@ -6,7 +6,7 @@
 /*   By: akdovlet <akdovlet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:25:02 by akdovlet          #+#    #+#             */
-/*   Updated: 2023/08/19 15:20:56 by akdovlet         ###   ########.fr       */
+/*   Updated: 2023/08/19 19:37:45 by akdovlet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,7 @@ int	ft_is_charset(char c, char *charset)
 	return (0);
 }
 
-
-// "___hey--salut-mallco"02134a3s51fsadf.0sdf 
-//splitter[0] = hey
-//salut[1] = salut
-//mallco
-int ft_char_count(char *str, char *charset, int index)
+int	ft_char_count(char *str, char *charset, int index)
 {	
 	int	count;
 
@@ -46,6 +41,7 @@ int ft_char_count(char *str, char *charset, int index)
 	}
 	return (count);
 }
+
 int	ft_count_word(char *str, char *charset)
 {
 	int	i;
@@ -58,7 +54,6 @@ int	ft_count_word(char *str, char *charset)
 		if (str[i] && !ft_is_charset(str[i], charset))
 		{
 			wordcount++;
-			i++;
 			while (str[i] && !ft_is_charset(str[i], charset))
 				i++;
 		}
@@ -70,11 +65,11 @@ int	ft_count_word(char *str, char *charset)
 
 char	*ft_strndup(char *str, int index, int n)
 {
-	int	i;
-	char *dup;
+	int		i;
+	char	*dup;
 
 	i = 0;
-	dup = malloc(sizeof(char) * n + 1);
+	dup = malloc(sizeof(char) * (n + 1));
 	if (!dup)
 		return (NULL);
 	while (str[index] && i < n)
@@ -86,34 +81,27 @@ char	*ft_strndup(char *str, int index, int n)
 	return (dup);
 }
 
-char **ft_split(char *str, char *charset)
+char	**ft_split(char *str, char *charset)
 {
-	int	i;
-	int	j;
-	int	wordcount;
-	int	charcount;
-	char **splitter;
-	
+	int		i;
+	int		j;
+	int		wordcount;
+	char	**splitter;
 
 	i = 0;
 	j = 0;
 	wordcount = ft_count_word(str, charset);
-	splitter = malloc(sizeof(char *) * wordcount + 1);
+	splitter = malloc(sizeof(char *) * (wordcount + 1));
 	if (!splitter)
 		return (NULL);
-	while (str[i])
+	while (str[i] && j < wordcount)
 	{
 		if (!ft_is_charset(str[i], charset) && str[i])
 		{
-			charcount = ft_char_count(str, charset, i);
-			//printf("charcount is: %d\n", charcount);
-			splitter[j] = ft_strndup(str, i, charcount);
-		//	printf("test: %d\n", i);
-			if (!splitter[j])
+			splitter[j] = ft_strndup(str, i, ft_char_count(str, charset, i));
+			if (!splitter[j++])
 				return (NULL);
-			i++;
-			j++;
-			while(!ft_is_charset(str[i], charset) && str[i])
+			while (!ft_is_charset(str[i], charset) && str[i])
 				i++;
 		}
 		else
@@ -123,10 +111,7 @@ char **ft_split(char *str, char *charset)
 	return (splitter);
 }
 
-
-
-
-#include <stdio.h>
+/* #include <stdio.h>
 
 int main(int argc, char **argv)
 {
@@ -137,13 +122,11 @@ int main(int argc, char **argv)
 	
 		i = 0;
 		strs = ft_split(argv[1], argv[2]);
-		/* printf("%d\n", ft_count_word(argv[1], argv[2])); */
+		printf("%d\n", ft_count_word(argv[1], argv[2])); 
 		while (strs[i])
 		{
 			printf("%s\n", strs[i]);
 			i++;
 		}	
 	}
-}
-
-
+}*/
